@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% from 'device.html' import iot_control_panel %}
+
+{% block content %}
+
+<div class="center-horizontal">
+
+</div>
+<div class="jumbotron mt-3">
+
+    {% if not session['user_id'] %}
+
+    <h1 class="display-4">Bienvenidos a Mi App</h1>
+    <p class="lead">Esta es una simple aplicación con Flask y Bootstrap.</p>
+    <hr class="my-4">
+
+    {% else %}
+
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% for device in devices %}
+
+    <div class="card mt-2 mb-2">
+
+        <div class="card-header">
+            <h5 class="mb-0">{{device['description']}} ({{device['device_serial_number']}})</h5>
+
+            <h5 class="mb-0"></h5>
+        </div>
+
+        <div class="card-body">
+            {{ iot_control_panel('-', '-', false, false, false) }}
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+</div>
+
+
+{% endblock %}
