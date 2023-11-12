@@ -1,20 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 from werkzeug.security import check_password_hash, generate_password_hash
-import sqlite3
-
-import paho.mqtt.client as mqtt
-
 import utils
 
 app = Flask(__name__)
 app.secret_key = 'tu_llave_secreta'
-
 mqtt_client = utils.mqtt_connect()
 
 
 @app.route('/')
 def index():
-
     if 'user_id' in session:
         conn = utils.get_db_connection()
         user = conn.execute('SELECT username FROM users WHERE id = ?', (session['user_id'],)).fetchone()

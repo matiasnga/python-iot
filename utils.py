@@ -1,6 +1,4 @@
 import sqlite3
-import traceback
-
 import paho.mqtt.client as mqtt
 
 
