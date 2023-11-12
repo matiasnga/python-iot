@@ -1,0 +1,9 @@
+{
+  "short_name": "MiApp",
+  "name": "Mi Aplicación Flask",
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#000000"
+}

@@ -1,0 +1,74 @@
+{% macro iot_control_panel() %}
+
+
+<div id="iot-control-panel">
+    <div id="refresh-indicator" style="display: none; position: fixed; top: 5%; left: 50%; transform: translateX(-50%); z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+<div id="mqtt-loading-overlay" style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 1); z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Cargando...</span>
+    </div>
+</div>
+    <div class="text-center mb-4">
+        <!-- Agrega un ID al elemento que mostrará la temperatura actual -->
+        <p class="text-muted" id="current-temp-mqtt"> °C</p>
+        <!-- Suponiendo que 'is_emisor' se actualizará también, agrega un ID aquí -->
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center mb-4">
+        UP
+        <!-- Agrega un ID al elemento que mostrará la temperatura objetivo -->
+        <h2 class="h1 mb-2" id="target-temp">{{ target_temp }}°C</h2>
+        DOWN
+    </div>
+    <div class="btn-group d-flex">
+        <!-- Agrega IDs o clases si necesitas manipular estos botones -->
+        <button class="btn btn-outline-primary flex-fill" id="btn-emisor-mqtt">Emisor</button>
+
+        <button class="btn btn-outline-primary flex-fill {{ 'active' if is_caldera else '' }}" id="btn-caldera">
+            Caldera
+        </button>
+        <button class="btn btn-outline-primary flex-fill {{ 'active' if is_receptor else '' }}" id="btn-receptor">
+            Receptor
+        </button>
+    </div>
+  <script type="text/javascript">
+
+   document.addEventListener('mqttConnected', function(event) {
+     var mqttClient = event.detail;
+     var topic = "16092021/#"
+     mqttClient.subscribe(topic);
+     console.log('Suscrito a los topics después de la conexión MQTT');
+     mqttClient.on('message', (topic, message) => {
+         console.log(message.toString())
+         if (topic === '16092021/temp') {
+             document.getElementById('current-temp-mqtt').innerText = message.toString() + '° C';
+         }
+         if (topic === '16092021/status_temp') {
+             var emisorIsOnline = (message.toString() === 'online');
+             updateStatusDisplay(emisorIsOnline);
+
+         }
+     });
+
+
+ });
+
+ function updateStatusDisplay(isOnline) {
+     var btnEmisor = document.getElementById('btn-emisor-mqtt');
+     if (btnEmisor) {
+         if (isOnline) {
+             btnEmisor.classList.add('active');
+         } else {
+             btnEmisor.classList.remove('active');
+         }
+     }
+ }
+
+  </script>
+
+</div>
+{% endmacro %}
+
