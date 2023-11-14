@@ -1,5 +1,19 @@
 import sqlite3
 import paho.mqtt.client as mqtt
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, Content
+
+
+def send_email():
+
+    sg = sendgrid.SendGridAPIClient('tu_api_key_de_sendgrid')
+    from_email = Email("tu_email@example.com")
+    to_email = To("destinatario@example.com")
+    subject = "Enviando con SendGrid es Divertido"
+    content = Content("text/plain", "y fácil de hacer en cualquier lugar, incluso con Python")
+    mail = Mail(from_email, to_email, subject, content)
+
+    response = sg.client.mail.send.post(request_body=mail.get())
 
 
 def mqtt_connect():

@@ -3,9 +3,6 @@
 
 {% block content %}
 
-<div class="center-horizontal">
-
-</div>
 <div class="jumbotron mt-3">
 
     {% if not session['user_id'] %}
@@ -15,24 +12,23 @@
     <hr class="my-4">
 
     {% else %}
-
-<div class="container">
-    {% for message in get_flashed_messages() %}
+{% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         {{ message }}
     </div>
     {% endfor %}
     {% for device in devices %}
 
-    <div class="card mt-2 mb-2">
 
-        <div class="card-header">
+    <div class="card mt-0">
+
+        <div class="card-header mt-0">
             <h5 class="mb-0">{{device['description']}} ({{device['device_serial_number']}})</h5>
 
             <h5 class="mb-0"></h5>
         </div>
 
-        <div class="card-body">
+        <div class="card-body mt-0">
             {{ iot_control_panel()}}
 
         </div>
@@ -40,7 +36,6 @@
 
     {% endfor %}
     {% endif %}
-</div>
 
 
 </div>

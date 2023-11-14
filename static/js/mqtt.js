@@ -1,19 +1,18 @@
 var mqttClient = null;
-console.log(mqttClient)
-console.log('test')
 document.addEventListener('DOMContentLoaded', function() {
 
         // Configura las opciones del cliente MQTT
   var options = {
         connectTimeout: 4000,
-        clientId: 'client-id',
+        clientId: 'client-id' + Math.floor(Math.random() * 10000),
         username: 'test',
         password: 'test',
         keepalive: 60,
         clean: true,
       };
+        if (!mqttClient) {
+       var  mqttClient = mqtt.connect('wss://h571be95.ala.us-east-1.emqxsl.com:8084/mqtt', options);
 
-      var mqttClient = mqtt.connect('wss://h571be95.ala.us-east-1.emqxsl.com:8084/mqtt', options);
 
 
  mqttClient.on('connect', () => {
@@ -21,11 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.dispatchEvent(new CustomEvent('mqttConnected', { detail: mqttClient }));
             document.getElementById('mqtt-loading-overlay').style.display = 'none';
 
-        console.log(mqttClient)
       });
 
  mqttClient.on('error', (error) => {
         console.log('Error de conexión MQTT:', error);
       });
-
+}
       })

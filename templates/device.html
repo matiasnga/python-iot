@@ -2,73 +2,121 @@
 
 
 <div id="iot-control-panel">
-    <div id="refresh-indicator" style="display: none; position: fixed; top: 5%; left: 50%; transform: translateX(-50%); z-index: 1050;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Cargando...</span>
+    <div id="refresh-indicator"
+         style="display: none; position: fixed; top: 5%; left: 50%; transform: translateX(-50%); z-index: 1050;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
     </div>
-</div>
-<div id="mqtt-loading-overlay" style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 1); z-index: 1050;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Cargando...</span>
+    <div id="mqtt-loading-overlay"
+         style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 1); z-index: 1050;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
     </div>
-</div>
     <div class="text-center mb-4">
         <!-- Agrega un ID al elemento que mostrará la temperatura actual -->
         <p class="text-muted" id="current-temp-mqtt"> °C</p>
         <!-- Suponiendo que 'is_emisor' se actualizará también, agrega un ID aquí -->
     </div>
     <div class="d-flex flex-column align-items-center justify-content-center mb-4">
-        UP
+        <button class="btn btn-outline-primary flex-fill" id="increaseTemp">+</button>
         <!-- Agrega un ID al elemento que mostrará la temperatura objetivo -->
-        <h2 class="h1 mb-2" id="target-temp">{{ target_temp }}°C</h2>
-        DOWN
+        <h2 class="h1 mb-2" id="target-temp"></h2>
+        <button class="btn btn-outline-primary flex-fill" id="decreaseTemp">-</button>
     </div>
-    <div class="btn-group d-flex">
+    <div class="btn-group d-flex ">
         <!-- Agrega IDs o clases si necesitas manipular estos botones -->
         <button class="btn btn-outline-primary flex-fill" id="btn-emisor-mqtt">Emisor</button>
 
-        <button class="btn btn-outline-primary flex-fill {{ 'active' if is_caldera else '' }}" id="btn-caldera">
-            Caldera
+        <button class="btn btn-outline-warning flex-fill" id="btn-caldera-mqtt">Caldera</button>
+
+        <button class="btn btn-outline-primary flex-fill" id="btn-receptor-mqtt">Receptor</button>
+
+    </div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Abrir Formulario
+</button>
+    <div class="container mt-4 ">
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Formulario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
-        <button class="btn btn-outline-primary flex-fill {{ 'active' if is_receptor else '' }}" id="btn-receptor">
-            Receptor
-        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Aquí coloca tu formulario -->
+<form action="/submit_schedule" method="post">
+            <div class="form-group">
+                <label>Días de la semana:</label> <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="lunes" value="L">
+                    <label class="form-check-label" for="lunes">L</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="martes" value="M">
+                    <label class="form-check-label" for="martes">M</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="miercoles" value="M">
+                    <label class="form-check-label" for="miercoles">M</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="jueves" value="J">
+                    <label class="form-check-label" for="jueves">J</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="viernes" value="V">
+                    <label class="form-check-label" for="viernes">V</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="sabado" value="S">
+                    <label class="form-check-label" for="sabado">S</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="domingo" value="D">
+                    <label class="form-check-label" for="domingo">D</label>
+                </div>
+                <!-- Repetir para cada día de la semana -->
+            </div>
+
+            <div class="form-group">
+                <label for="start_time">Hora de inicio:</label>
+                <input type="time" class="form-control" id="start_time" name="start_time">
+            </div>
+
+            <div class="form-group">
+                <label for="end_time">Hora de fin:</label>
+                <input type="time" class="form-control" id="end_time" name="end_time">
+            </div>
+
+            <div class="form-group">
+                <label for="temperature">Temperatura (°C):</label>
+                <input type="number" class="form-control" id="temperature" name="temperature">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
     </div>
-  <script type="text/javascript">
-
-   document.addEventListener('mqttConnected', function(event) {
-     var mqttClient = event.detail;
-     var topic = "16092021/#"
-     mqttClient.subscribe(topic);
-     console.log('Suscrito a los topics después de la conexión MQTT');
-     mqttClient.on('message', (topic, message) => {
-         console.log(message.toString())
-         if (topic === '16092021/temp') {
-             document.getElementById('current-temp-mqtt').innerText = message.toString() + '° C';
-         }
-         if (topic === '16092021/status_temp') {
-             var emisorIsOnline = (message.toString() === 'online');
-             updateStatusDisplay(emisorIsOnline);
-
-         }
-     });
-
-
- });
-
- function updateStatusDisplay(isOnline) {
-     var btnEmisor = document.getElementById('btn-emisor-mqtt');
-     if (btnEmisor) {
-         if (isOnline) {
-             btnEmisor.classList.add('active');
-         } else {
-             btnEmisor.classList.remove('active');
-         }
-     }
- }
-
-  </script>
-
+  </div>
 </div>
+
+
+
+
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/mqtt-device.js') }}"></script>
+
 {% endmacro %}
 
