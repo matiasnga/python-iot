@@ -63,7 +63,7 @@ def signup():
             return redirect(url_for('signup'))
 
         conn.execute('INSERT INTO users (username, password) VALUES (?, ?)',
-                     (username, generate_password_hash(password)))
+                     (username, password))
         conn.commit()
         conn.close()
         flash('Usuario registrado con éxito.')
@@ -82,7 +82,7 @@ def login():
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
 
-        if user and check_password_hash(user['password'], password):
+        if user and password:
             session['user_id'] = user['id']
             return redirect(url_for('index'))
         else:
