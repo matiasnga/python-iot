@@ -20,7 +20,6 @@ def index():
             device_serial_number = row[2]
             topic = f"{device_serial_number}/#"
             mqtt_client.subscribe(topic)
-            print(f"Suscrito al tópico {topic}")
 
         device_list = [
             {'id': row[0], 'username': row[1], 'device_serial_number': row[2], 'description': row[3], 'type': row[4]}

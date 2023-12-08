@@ -22,18 +22,51 @@
     border: none;
   }
 
-#refresh-indicator {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1050; /* Asegúrate de que esté por encima de otros elementos */
+ .slider-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+ }
 
-    /* Estilos para el spinner */
-    .spinner-border {
-        width: 3rem;
-        height: 3rem;
-        /* Puedes agregar más estilos si lo deseas */
-    }
+.slider {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: lightblue;
+    outline: none;
+    transform: rotate(-90deg);
+    -webkit-appearance: none;
 }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: blue;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.switch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: gray;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.value-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: white;
+}
+
+
