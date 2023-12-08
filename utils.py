@@ -1,11 +1,13 @@
 import sqlite3
 import paho.mqtt.client as mqtt
-import os
+from pathlib import Path
+THIS_FOLDER = Path(__file__).parent.resolve()
+my_file = THIS_FOLDER / "myfile.txt"
 
 def mqtt_connect():
     server_address = "h571be95.ala.us-east-1.emqxsl.com"
     mqtt_port = 8883
-    ca_cert = "/home/mngallo/python-iot/emqxsl-ca.crt"
+    ca_cert = THIS_FOLDER / "emqxsl-ca.crt"
     username = "test"
     password = "test"
 
@@ -28,6 +30,6 @@ def mqtt_connect():
 
 
 def get_db_connection():
-    conn = sqlite3.connect('/home/mngallo/python-iot/database.db')
+    conn = sqlite3.connect(THIS_FOLDER / "database.db")
     conn.row_factory = sqlite3.Row
     return conn
