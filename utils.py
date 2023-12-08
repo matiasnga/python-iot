@@ -19,7 +19,7 @@ import paho.mqtt.client as mqtt
 def mqtt_connect():
     server_address = "h571be95.ala.us-east-1.emqxsl.com"
     mqtt_port = 8883
-    ca_cert = "static/cert/emqxsl-ca.crt"
+    ca_cert = "./static/cert/emqxsl-ca.crt"
     username = "test"
     password = "test"
 
