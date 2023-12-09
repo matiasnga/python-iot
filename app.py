@@ -17,8 +17,7 @@ def index():
             (session['user_id'],)).fetchall()
         conn.close()
         for row in rows:
-            device_serial_number = '16092021'
-            # device_serial_number = row[2]
+            device_serial_number = row[2]
             topic = f"{device_serial_number}/#"
             mqtt_client.subscribe(topic)
 
